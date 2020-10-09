@@ -1,14 +1,21 @@
 const express = require('express')
 const app = express()
-const port = 3000
+
+const { makeAge, makeGender, makeEmail } = require('./dataGenerator')
 
 app.get('/randomUser', (req, res) => {
     const params = req.query
-    res.send(params)
-    console.log(params)
+    
+    const age = makeAge(params['age'])
+    const gender = makeGender(params['gender'])
+    const email = makeEmail(params['email'], gender)
+
+    res.send({ age, gender, email }).status(200)
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+const PORT = 3000
+
+app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
   })
    
