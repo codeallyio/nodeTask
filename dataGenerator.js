@@ -1,6 +1,6 @@
 const names = require('./names');
 
-const randomXToY =(minVal, maxVal) => ( Math.round(minVal + Math.random() * (maxVal-minVal)) )
+const randomXToY = (minVal, maxVal) => (Math.round(minVal + Math.random() * (maxVal - minVal)))
 
 const generateGender = gender => {
     if (gender === 'male' || gender === 'female')
@@ -8,7 +8,7 @@ const generateGender = gender => {
 
     return Math.random() > 0.5 ? 'male' : 'female'
 }
-const generateAge = age =>{
+const generateAge = age => {
     if (!!age && 12 <= age && age <= 90)
         return age
 
@@ -20,14 +20,14 @@ const validateEmail = (email) => {
     return re.test(String(email));
 }
 
-const generateEmail = (email, gender) =>{
-    if(validateEmail(email))
+const generateEmail = (email, gender) => {
+    if (validateEmail(email))
         return email
 
     gender = generateGender(gender)
 
     const genderNames = gender === 'male' ? names.mNames.split(`\n`) : names.fNames.split(`\n`)
-    return genderNames[randomXToY(0,999)].toLowerCase() + (2020 - randomXToY(0, 90)) + '@gmail.com'
+    return genderNames[randomXToY(0, 999)].toLowerCase() + (2020 - randomXToY(0, 90)) + '@gmail.com'
 }
 
 module.exports = {

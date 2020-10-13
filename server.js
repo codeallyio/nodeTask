@@ -13,15 +13,15 @@ const usersPseudoDB = []
 // * EMAIL
 
 
-app.get('/getUsers', () => {})
+app.get('/getUsers', () => { })
 
-app.get('/getUser', () => {}) // by ID
+app.get('/getUser', () => { }) // by ID
 
-app.post('/generateUser', () => {})
+app.post('/generateUser', () => { })
 
-app.put('/updateUser', () => {}) // by ID
+app.put('/updateUser', () => { }) // by ID
 
-app.delete('/deleteUser', () => {}) // by ID
+app.delete('/deleteUser', () => { }) // by ID
 
 
 const PORT = 3000

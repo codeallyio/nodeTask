@@ -1,5 +1,5 @@
 const mNames =
-`Liam
+    `Liam
 Noah
 William
 James
@@ -1003,7 +1003,7 @@ Jaxx`
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const fNames =
-`Emma
+    `Emma
 Olivia
 Ava
 Isabella
@@ -2004,7 +2004,7 @@ Monserrat
 Zendaya
 Alora`
 
-module.exports = { 
-    fNames, 
-    mNames 
+module.exports = {
+    fNames,
+    mNames
 }
