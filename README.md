@@ -1,8 +1,8 @@
 # Node Interview Task
 
-## Story Part
+## Background
 
-Imagine you are young computer enthusiast from India. You were born in the poor family, so to go on studies, you need to take responsibility for your life and earn some money. You got the idea of creating fake facebook accounts to sell likes and follows. You want to automate the process a bit, so you decided on creating the database of fake personal information. To be more precise: `name`, `gender` and `age`. You made the list of 1000 male and 1000 female names and put them to `/db/db.js` file. Make CRUD API for generating users. As the database use `usersPseudoDB` array.
+You got the idea of creating fake Facebook accounts to sell likes and follows. You want to automate the process a bit, so you have decided to create the database containing false personal information. To be more precise: `age`, `gender` and `email`. You have made the list of 1000 male and 1000 female names and put them to `names.js` file. Make the CRUD API for accessing users. As a database, use the `usersPseudoDB` array.
 
 ## TODO
 
