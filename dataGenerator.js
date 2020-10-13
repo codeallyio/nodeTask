@@ -1,4 +1,4 @@
-const db = require('./db/db');
+const names = require('./names');
 
 const randomXToY =(minVal, maxVal) => ( Math.round(minVal + Math.random() * (maxVal-minVal)) )
 
@@ -26,8 +26,8 @@ const generateEmail = (email, gender) =>{
 
     gender = generateGender(gender)
 
-    const names = gender === 'male' ? db.mNames.split(`\n`) : db.fNames.split(`\n`)
-    return names[randomXToY(0,999)].toLowerCase() + (2020 - randomXToY(0, 90)) + '@gmail.com'
+    const genderNames = gender === 'male' ? names.mNames.split(`\n`) : names.fNames.split(`\n`)
+    return genderNames[randomXToY(0,999)].toLowerCase() + (2020 - randomXToY(0, 90)) + '@gmail.com'
 }
 
 module.exports = {
