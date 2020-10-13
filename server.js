@@ -1,21 +1,31 @@
 const express = require('express')
 const app = express()
 
-const { makeAge, makeGender, makeEmail } = require('./dataGenerator')
+const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
 
-app.get('/randomUser', (req, res) => {
-    const params = req.query
-    
-    const age = makeAge(params['age'])
-    const gender = makeGender(params['gender'])
-    const email = makeEmail(params['email'], gender)
+const usersPseudoDB = []
 
-    res.send({ age, gender, email }).status(200)
-})
+// MAKE SURE ALL USERS CONTAIN
+//
+// * ID
+// * AGE
+// * GENDER
+// * EMAIL
+
+
+app.get('/getUsers', () => {})
+
+app.get('/getUser', () => {}) // by ID
+
+app.post('/generateUser', () => {})
+
+app.put('/updateUser', () => {}) // by ID
+
+app.delete('/deleteUser', () => {}) // by ID
+
 
 const PORT = 3000
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`)
-  })
-   
+})
