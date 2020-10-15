@@ -8,11 +8,11 @@ let usersPseudoDB = []
 
 let serialID = 1
 
-router.get('/getUsers', (req, res) => {
+router.get('/users', (req, res) => { // get all users
     res.status(200).send(usersPseudoDB)
 })
 
-router.get('/getUser/:id', (req, res) => {
+router.get('/user/:id', (req, res) => { // get single user
     const { id } = req.params
 
     const user = usersPseudoDB.find(u => u.id == id)
@@ -24,7 +24,7 @@ router.get('/getUser/:id', (req, res) => {
     res.status(200).send({ message: 'User found successfully', user })
 })
 
-router.post('/generateUser', (req, res) => {
+router.post('/user', (req, res) => { // create user
     const urlParams = req.query
 
     const age = generateAge(urlParams.age)
@@ -40,7 +40,7 @@ router.post('/generateUser', (req, res) => {
     res.status(201).send({ message: 'User successfully created', user })
 })
 
-router.put('/updateUser/:id', (req, res) => {
+router.put('/user/:id', (req, res) => { // update user
     const { id } = req.params
 
     const user = usersPseudoDB.find(u => u.id == id)
@@ -68,7 +68,7 @@ router.put('/updateUser/:id', (req, res) => {
     res.status(200).send(user)
 })
 
-router.delete('/deleteUser/:id', (req, res) => {
+router.delete('/user/:id', (req, res) => { // delete user
     const { id } = req.params
 
     const user = usersPseudoDB.find(u => u.id == id)
