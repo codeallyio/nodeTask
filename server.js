@@ -4,6 +4,9 @@ const users = require('./users')
 
 const app = express()
 
+app.use(express.text())
+app.use(express.json())
+
 app.use(users)
 
 const PORT = 3000
