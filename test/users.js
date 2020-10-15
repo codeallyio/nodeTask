@@ -1,26 +1,41 @@
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../server');
-let should = chai.should();
+let chai = require('chai')
+let chaiHttp = require('chai-http')
+let server = require('../server')
+let should = chai.should()
 
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe('users', () => {
     beforeEach((done) => {
         done()
-    });
+    })
 
-    describe('/GET users', () => {
+    describe('GET /user', () => {
         it('it should GET all the users', (done) => {
             chai.request(server)
-                .get('/getUsers')
+                .get('/users')
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('array')
                     res.body.length.should.be.eql(0)
                     done()
-                });
-        });
-    });
+                })
+        })
+    })
+
+    describe('GET /user/:id', () => {
+        it('it should return a "User not found" message', (done) => {
+            const id = 1
+
+            chai.request(server)
+                .get('/user/' + 1)
+                .end((err, res) => {
+                    res.should.have.status(404)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql(`User with id ${id} not found`)
+                    done()
+                })
+        })
+    })
 })
