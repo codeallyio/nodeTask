@@ -3,10 +3,10 @@ const { generateAge, generateGender, generateEmail } = require('./dataGenerator'
 const { validateGender, validateAge, validateEmail } = require('./dataValidator')
 
 var usersPseudoDB = require('./usersPseudoDB')
+var serialID = require('./usersSerialID')
+
 
 const router = Router()
-
-let serialID = 1
 
 router.get('/users', (req, res) => { // get all users
     res.status(200).send(usersPseudoDB)
@@ -27,17 +27,17 @@ router.get('/user/:id', (req, res) => { // get single user
 router.post('/user', (req, res) => { // create user
     const urlParams = req.query
 
-    const age = generateAge(urlParams.age)
+    const age = Number(generateAge(urlParams.age))
     const gender = generateGender(urlParams.gender)
     const email = generateEmail(urlParams.email, gender)
 
-    id = serialID++
+    id = serialID.value++
 
     const user = { id, age, gender, email }
 
     usersPseudoDB.push(user)
 
-    res.status(201).send({ message: 'User successfully created', user })
+    res.status(201).send({ message: 'User created successfully', user })
 })
 
 router.put('/user/:id', (req, res) => { // update user
