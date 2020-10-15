@@ -18,7 +18,7 @@ router.get('/user/:id', (req, res) => { // get single user
     const user = usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
-        res.status(404).send({ message: `User with id ${id} not found` })
+        return res.status(404).send({ message: `User with id ${id} not found` })
     }
 
     res.status(200).send({ message: 'User found successfully', user })
@@ -46,7 +46,7 @@ router.put('/user/:id', (req, res) => { // update user
     const user = usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
-        res.status(404).send({ message: `User with id ${id} not found` })
+        return res.status(404).send({ message: `User with id ${id} not found` })
     }
 
     const updates = {}
@@ -74,7 +74,7 @@ router.delete('/user/:id', (req, res) => { // delete user
     const user = usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
-        res.status(404).send({ message: `User with id ${id} not found` })
+        return res.status(404).send({ message: `User with id ${id} not found` })
     }
 
     usersPseudoDB = usersPseudoDB.filter(u => u.id != id)
