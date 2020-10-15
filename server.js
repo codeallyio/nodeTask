@@ -1,28 +1,10 @@
 const express = require('express')
+const users = require('./users')
+
+
 const app = express()
 
-const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
-
-const usersPseudoDB = []
-
-// MAKE SURE ALL USERS CONTAIN
-//
-// * ID
-// * AGE
-// * GENDER
-// * EMAIL
-
-
-app.get('/getUsers', () => { })
-
-app.get('/getUser', () => { }) // by ID
-
-app.post('/generateUser', () => { })
-
-app.put('/updateUser', () => { }) // by ID
-
-app.delete('/deleteUser', () => { }) // by ID
-
+app.use(users)
 
 const PORT = 3000
 
