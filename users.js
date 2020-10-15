@@ -2,9 +2,9 @@ const { Router } = require('express')
 const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
 const { validateGender, validateAge, validateEmail } = require('./dataValidator')
 
+var usersPseudoDB = require('./usersPseudoDB')
 
 const router = Router()
-let usersPseudoDB = []
 
 let serialID = 1
 
