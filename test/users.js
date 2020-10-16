@@ -78,3 +78,45 @@ describe('users when the database is empty', () => {
         })
     })
 })
+
+describe('users when the database has already three entries', () => {
+    beforeEach((done) => {
+        db.usersPseudoDB.splice(0, db.usersPseudoDB.length)
+        db.usersPseudoDB.push(
+            {
+                "id": 1,
+                "age": 37,
+                "gender": "male",
+                "email": "lee1983@gmail.com"
+            },
+            {
+                "id": 2,
+                "age": 76,
+                "gender": "female",
+                "email": "kate1982@gmail.com"
+            },
+            {
+                "id": 3,
+                "age": 16,
+                "gender": "male",
+                "email": "darian2000@gmail.com"
+            }
+        )
+        db.serialID = 3
+        done()
+    })
+
+    describe('GET /users', () => {
+        it('it should GET all the users', (done) => {
+            chai.request(server)
+                .get('/users')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('array')
+                    res.body.length.should.be.eql(3)
+                    done()
+                })
+        })
+    })
+
+})
