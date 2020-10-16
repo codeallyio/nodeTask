@@ -47,7 +47,7 @@ describe('users when the database is empty', () => {
             chai.request(server)
                 .post('/user')
                 .end((err, res) => {
-                    res.should.have.status(201)
+                    res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('message').eql('User created successfully')
                     res.body.should.have.property('user')
@@ -65,7 +65,7 @@ describe('users when the database is empty', () => {
             chai.request(server)
                 .post('/user?age=21&gender=male&email=adamtherandom@gmail.com')
                 .end((err, res) => {
-                    res.should.have.status(201)
+                    res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('message').eql('User created successfully')
                     res.body.should.have.property('user')
@@ -156,7 +156,7 @@ describe('users when the database has already three entries', () => {
             chai.request(server)
                 .post('/user')
                 .end((err, res) => {
-                    res.should.have.status(201)
+                    res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('message').eql('User created successfully')
                     res.body.should.have.property('user')

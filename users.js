@@ -36,7 +36,7 @@ router.post('/user', (req, res) => { // create user
 
     db.usersPseudoDB.push(user)
 
-    res.status(201).send({ message: 'User created successfully', user })
+    res.status(200).send({ message: 'User created successfully', user })
 })
 
 router.put('/user/:id', (req, res) => { // update user
@@ -64,7 +64,7 @@ router.put('/user/:id', (req, res) => { // update user
 
     Object.assign(user, updates)
 
-    res.status(200).send(user)
+    res.status(200).send({ message: 'User updated successfully', user })
 })
 
 router.delete('/user/:id', (req, res) => { // delete user
