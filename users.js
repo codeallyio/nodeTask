@@ -78,7 +78,7 @@ router.delete('/user/:id', (req, res) => { // delete user
 
     db.usersPseudoDB.splice(db.usersPseudoDB.findIndex(u => u.id == id), 1)
 
-    res.status(404).send({ message: 'User deleted successfully', user })
+    res.status(200).send({ message: 'User deleted successfully', user })
 })
 
 
