@@ -119,4 +119,35 @@ describe('users when the database has already three entries', () => {
         })
     })
 
+    describe('GET /user/:id', () => {
+        it('it should find the user using existing ID', (done) => {
+            chai.request(server)
+                .get('/user/2')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql('User found successfully')
+                    res.body.should.have.property('user')
+                    res.body.user.should.have.property('id').eql(2)
+                    res.body.user.should.have.property('age').eql(76)
+                    res.body.user.should.have.property('gender').eql('female')
+                    res.body.user.should.have.property('email').eql('kate1982@gmail.com')
+                    done()
+                })
+        })
+
+        it('it should not find the user using not existing ID', (done) => {
+            const id = 4
+
+            chai.request(server)
+                .get(`/user/${id}`)
+                .end((err, res) => {
+                    res.should.have.status(404)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql(`User with id ${id} not found`)
+                    res.body.should.not.have.property('user')
+                    done()
+                })
+        })
+    })
 })
