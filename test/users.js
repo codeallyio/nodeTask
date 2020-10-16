@@ -136,7 +136,7 @@ describe('users when the database has already three entries', () => {
                 })
         })
 
-        it('it should not find the user using not existing ID', (done) => {
+        it('it should fall in finding the user using not existing ID and return error message', (done) => {
             const id = 4
 
             chai.request(server)
@@ -193,7 +193,7 @@ describe('users when the database has already three entries', () => {
                 })
         })
 
-        it('it should not update any user when passed non-valid ID', (done) => {
+        it('it should return error message when passed non-valid ID', (done) => {
             const id = 4
 
             chai.request(server)
@@ -203,6 +203,41 @@ describe('users when the database has already three entries', () => {
                     "gender": "male",
                     "email": "example21male@gmail.com"
                 })
+                .end((err, res) => {
+                    res.should.have.status(404)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql(`User with id ${id} not found`)
+                    res.body.should.not.have.property('user')
+                    done()
+                })
+        })
+    })
+
+
+    describe('DELETE /user/:id', () => {
+        it('it should delete the user when passed valid ID', (done) => {
+            const id = 2
+
+            chai.request(server)
+                .delete(`/user/${id}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql('User deleted successfully')
+                    res.body.should.have.property('user')
+                    res.body.user.should.have.property('id').eql(id)
+                    res.body.user.should.have.property('age').eql(76)
+                    res.body.user.should.have.property('gender').eql('female')
+                    res.body.user.should.have.property('email').eql('kate1982@gmail.com')
+                    done()
+                })
+        })
+
+        it('it should return error message when passed non-valid ID', (done) => {
+            const id = 4
+
+            chai.request(server)
+                .delete(`/user/${id}`)
                 .end((err, res) => {
                     res.should.have.status(404)
                     res.body.should.be.a('object')
