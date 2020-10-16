@@ -102,7 +102,7 @@ describe('users when the database has already three entries', () => {
                 "email": "darian2000@gmail.com"
             }
         )
-        db.serialID = 3
+        db.serialID = 4
         done()
     })
 
@@ -146,6 +146,24 @@ describe('users when the database has already three entries', () => {
                     res.body.should.be.a('object')
                     res.body.should.have.property('message').eql(`User with id ${id} not found`)
                     res.body.should.not.have.property('user')
+                    done()
+                })
+        })
+    })
+
+    describe('POST /user', () => {
+        it('it should create a new user and response with format: \n\t{\n\t\tmessage: <string>,\n\t\tuser: {\n\t\t\tid: <serial>,\n\t\t\tage: <number>,\n\t\t\tgender: <string>,\n\t\t\temail: <string>\n\t\t}\n\t}', (done) => {
+            chai.request(server)
+                .post('/user')
+                .end((err, res) => {
+                    res.should.have.status(201)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql('User created successfully')
+                    res.body.should.have.property('user')
+                    res.body.user.should.have.property('id').eql(4)
+                    res.body.user.should.have.property('age')
+                    res.body.user.should.have.property('gender')
+                    res.body.user.should.have.property('email')
                     done()
                 })
         })
