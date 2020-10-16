@@ -3,16 +3,14 @@ const chaiHttp = require('chai-http')
 const server = require('../server')
 const should = chai.should()
 
-var usersPseudoDB = require('../usersPseudoDB')
-var serialID = require('../usersSerialID')
+var db = require('../usersPseudoDB')
 
 chai.use(chaiHttp)
 
 describe('users when the database is empty', () => {
     beforeEach((done) => {
-        usersPseudoDB = []
-        serialID.value = 1
-        console.log('seral', serialID)
+        db.usersPseudoDB.splice(0, db.usersPseudoDB.length)
+        db.serialID = 1
         done()
     })
 

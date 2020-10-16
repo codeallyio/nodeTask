@@ -2,20 +2,19 @@ const { Router } = require('express')
 const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
 const { validateGender, validateAge, validateEmail } = require('./dataValidator')
 
-var usersPseudoDB = require('./usersPseudoDB')
-var serialID = require('./usersSerialID')
+var db = require('./usersPseudoDB')
 
 
 const router = Router()
 
 router.get('/users', (req, res) => { // get all users
-    res.status(200).send(usersPseudoDB)
+    res.status(200).send(db.usersPseudoDB)
 })
 
 router.get('/user/:id', (req, res) => { // get single user
     const { id } = req.params
 
-    const user = usersPseudoDB.find(u => u.id == id)
+    const user = db.usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
         return res.status(404).send({ message: `User with id ${id} not found` })
@@ -31,11 +30,11 @@ router.post('/user', (req, res) => { // create user
     const gender = generateGender(urlParams.gender)
     const email = generateEmail(urlParams.email, gender)
 
-    id = serialID.value++
+    id = db.serialID++
 
     const user = { id, age, gender, email }
 
-    usersPseudoDB.push(user)
+    db.usersPseudoDB.push(user)
 
     res.status(201).send({ message: 'User created successfully', user })
 })
@@ -43,7 +42,7 @@ router.post('/user', (req, res) => { // create user
 router.put('/user/:id', (req, res) => { // update user
     const { id } = req.params
 
-    const user = usersPseudoDB.find(u => u.id == id)
+    const user = db.usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
         return res.status(404).send({ message: `User with id ${id} not found` })
@@ -71,13 +70,13 @@ router.put('/user/:id', (req, res) => { // update user
 router.delete('/user/:id', (req, res) => { // delete user
     const { id } = req.params
 
-    const user = usersPseudoDB.find(u => u.id == id)
+    const user = db.usersPseudoDB.find(u => u.id == id)
 
     if (!user) {
         return res.status(404).send({ message: `User with id ${id} not found` })
     }
 
-    usersPseudoDB = usersPseudoDB.filter(u => u.id != id)
+    db.usersPseudoDB.splice(db.usersPseudoDB.findIndex(u => u.id == id), 1)
 
     res.status(404).send({ message: 'User deleted successfully', user })
 })
