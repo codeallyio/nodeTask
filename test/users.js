@@ -168,4 +168,48 @@ describe('users when the database has already three entries', () => {
                 })
         })
     })
+
+    describe('PUT /user/:id', () => {
+        it('it should update the user when passed valid ID', (done) => {
+            const id = 2
+
+            chai.request(server)
+                .put(`/user/${id}`)
+                .send({
+                    "age": 21,
+                    "gender": "male",
+                    "email": "example21male@gmail.com"
+                })
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql('User updated successfully')
+                    res.body.should.have.property('user')
+                    res.body.user.should.have.property('id').eql(2)
+                    res.body.user.should.have.property('age').eql(21)
+                    res.body.user.should.have.property('gender').eql('male')
+                    res.body.user.should.have.property('email').eql('example21male@gmail.com')
+                    done()
+                })
+        })
+
+        it('it should not update any user when passed non-valid ID', (done) => {
+            const id = 4
+
+            chai.request(server)
+                .put(`/user/${4}`)
+                .send({
+                    "age": 21,
+                    "gender": "male",
+                    "email": "example21male@gmail.com"
+                })
+                .end((err, res) => {
+                    res.should.have.status(404)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql(`User with id ${id} not found`)
+                    res.body.should.not.have.property('user')
+                    done()
+                })
+        })
+    })
 })
