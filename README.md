@@ -42,7 +42,7 @@ In situations, when passed user ID is not valid, response should have status 404
 
 ## Running the server
 
-Development mode is being run by:
+### Run development mode
 
 `npm run dev`
 
@@ -50,6 +50,6 @@ This command runs the server with `nodemon`.
 
 The default port is `3000`.
 
-To run tests type:
+### Run tests
 
 `npm test`
