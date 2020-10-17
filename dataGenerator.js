@@ -13,7 +13,7 @@ const generateGender = gender => {
 }
 const generateAge = age => {
     if (validateAge(age)) {
-        return age
+        return Number(age)
     }
 
     return randomXToY(12, 90)

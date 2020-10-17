@@ -26,7 +26,7 @@ router.get('/user/:id', (req, res) => { // get single user
 router.post('/user', (req, res) => { // create user
     const urlParams = req.query
 
-    const age = Number(generateAge(urlParams.age))
+    const age = generateAge(urlParams.age)
     const gender = generateGender(urlParams.gender)
     const email = generateEmail(urlParams.email, gender)
 
