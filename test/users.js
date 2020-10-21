@@ -5,15 +5,14 @@ const should = chai.should()
 
 const userModel = require('../user-model')
 
-var db = require('../usersPseudoDB')
 
 chai.use(chaiHttp)
 
 describe('users when the database is empty', () => {
     beforeEach((done) => {
         userModel.deleteMany({}, () => {
-        done()
-    })
+            done()
+        })
     })
 
     describe('GET /users', () => {
@@ -83,29 +82,27 @@ describe('users when the database is empty', () => {
 
 describe('users when the database has already three entries', () => {
     beforeEach((done) => {
-        db.usersPseudoDB.splice(0, db.usersPseudoDB.length)
-        db.usersPseudoDB.push(
-            {
-                "id": 1,
-                "age": 37,
-                "gender": "male",
-                "email": "lee1983@gmail.com"
-            },
-            {
-                "id": 2,
-                "age": 76,
-                "gender": "female",
-                "email": "kate1982@gmail.com"
-            },
-            {
-                "id": 3,
-                "age": 16,
-                "gender": "male",
-                "email": "darian2000@gmail.com"
-            }
-        )
-        db.serialID = 4
-        done()
+        userModel.deleteMany({}, () => {
+            userModel.insertMany([
+                {
+                    age: 37,
+                    gender: "male",
+                    email: "lee1983@gmail.com"
+                },
+                {
+                    "age": 76,
+                    "gender": "female",
+                    "email": "kate1982@gmail.com"
+                },
+                {
+                    "age": 16,
+                    "gender": "male",
+                    "email": "darian2000@gmail.com"
+                }
+            ], () => {
+                done()
+            })
+        })
     })
 
     describe('GET /users', () => {
@@ -123,23 +120,26 @@ describe('users when the database has already three entries', () => {
 
     describe('GET /user/:id', () => {
         it('it should find the user using existing ID', (done) => {
-            chai.request(server)
-                .get('/user/2')
-                .end((err, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('User found successfully')
-                    res.body.should.have.property('user')
-                    res.body.user.should.have.property('id').eql(2)
-                    res.body.user.should.have.property('age').eql(76)
-                    res.body.user.should.have.property('gender').eql('female')
-                    res.body.user.should.have.property('email').eql('kate1982@gmail.com')
-                    done()
-                })
+            userModel.findOne({}, (err, firstUser) => {
+                chai.request(server)
+                    .get(`/user/${firstUser._id}`)
+                    .end((err, res) => {
+                        res.should.have.status(200)
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('User found successfully')
+                        res.body.should.have.property('user')
+                        res.body.user.should.have.property('_id')
+                        res.body.user.should.have.property('age').eql(37)
+                        res.body.user.should.have.property('gender').eql('male')
+                        res.body.user.should.have.property('email').eql('lee1983@gmail.com')
+                        done()
+                    })
+            })
         })
 
+
         it('it should fall in finding the user using not existing ID and return error message', (done) => {
-            const id = 4
+            const id = 'non-existing'
 
             chai.request(server)
                 .get(`/user/${id}`)
@@ -154,7 +154,7 @@ describe('users when the database has already three entries', () => {
     })
 
     describe('POST /user', () => {
-        it('it should create a new user and response with format: \n\t{\n\t\tmessage: <string>,\n\t\tuser: {\n\t\t\tid: <serial>,\n\t\t\tage: <number>,\n\t\t\tgender: <string>,\n\t\t\temail: <string>\n\t\t}\n\t}', (done) => {
+        it('it should create a new user and response with format: \n\t{\n\t\tmessage: <string>,\n\t\tuser: {\n\t\t\t_id: <uid>,\n\t\t\tage: <number>,\n\t\t\tgender: <string>,\n\t\t\temail: <string>\n\t\t}\n\t}', (done) => {
             chai.request(server)
                 .post('/user')
                 .end((err, res) => {
@@ -162,7 +162,7 @@ describe('users when the database has already three entries', () => {
                     res.body.should.be.a('object')
                     res.body.should.have.property('message').eql('User created successfully')
                     res.body.should.have.property('user')
-                    res.body.user.should.have.property('id').eql(4)
+                    res.body.user.should.have.property('_id')
                     res.body.user.should.have.property('age')
                     res.body.user.should.have.property('gender')
                     res.body.user.should.have.property('email')
@@ -173,33 +173,33 @@ describe('users when the database has already three entries', () => {
 
     describe('PUT /user/:id', () => {
         it('it should update the user when passed valid ID', (done) => {
-            const id = 2
-
-            chai.request(server)
-                .put(`/user/${id}`)
-                .send({
-                    "age": 21,
-                    "gender": "male",
-                    "email": "example21male@gmail.com"
-                })
-                .end((err, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('User updated successfully')
-                    res.body.should.have.property('user')
-                    res.body.user.should.have.property('id').eql(2)
-                    res.body.user.should.have.property('age').eql(21)
-                    res.body.user.should.have.property('gender').eql('male')
-                    res.body.user.should.have.property('email').eql('example21male@gmail.com')
-                    done()
-                })
+            userModel.findOne({}, (err, firstUser) => {
+                chai.request(server)
+                    .put(`/user/${firstUser._id}`)
+                    .send({
+                        "age": 21,
+                        "gender": "male",
+                        "email": "example21male@gmail.com"
+                    })
+                    .end((err, res) => {
+                        res.should.have.status(200)
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('User updated successfully')
+                        res.body.should.have.property('user')
+                        res.body.user.should.have.property('_id')
+                        res.body.user.should.have.property('age').eql(21)
+                        res.body.user.should.have.property('gender').eql('male')
+                        res.body.user.should.have.property('email').eql('example21male@gmail.com')
+                        done()
+                    })
+            })
         })
 
         it('it should return error message when passed non-valid ID', (done) => {
-            const id = 4
+            const id = 'non-valid'
 
             chai.request(server)
-                .put(`/user/${4}`)
+                .put(`/user/${id}`)
                 .send({
                     "age": 21,
                     "gender": "male",
@@ -218,25 +218,25 @@ describe('users when the database has already three entries', () => {
 
     describe('DELETE /user/:id', () => {
         it('it should delete the user when passed valid ID', (done) => {
-            const id = 2
-
-            chai.request(server)
-                .delete(`/user/${id}`)
-                .end((err, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('User deleted successfully')
-                    res.body.should.have.property('user')
-                    res.body.user.should.have.property('id').eql(id)
-                    res.body.user.should.have.property('age').eql(76)
-                    res.body.user.should.have.property('gender').eql('female')
-                    res.body.user.should.have.property('email').eql('kate1982@gmail.com')
-                    done()
-                })
+            userModel.findOne({}, (err, firstUser) => {
+                chai.request(server)
+                    .delete(`/user/${firstUser._id}`)
+                    .end((err, res) => {
+                        res.should.have.status(200)
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('User deleted successfully')
+                        res.body.should.have.property('user')
+                        res.body.user.should.have.property('_id')
+                        res.body.user.should.have.property('age').eql(37)
+                        res.body.user.should.have.property('gender').eql('male')
+                        res.body.user.should.have.property('email').eql('lee1983@gmail.com')
+                        done()
+                    })
+            })
         })
 
         it('it should return error message when passed non-valid ID', (done) => {
-            const id = 4
+            const id = 'non-valid'
 
             chai.request(server)
                 .delete(`/user/${id}`)
