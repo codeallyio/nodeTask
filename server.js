@@ -1,8 +1,14 @@
-const express = require('express')
+const express = require('express');
+const mongoose = require('mongoose');
 const users = require('./users')
 
 
 const app = express()
+
+mongoose.connect(process.env.MONGO_DATABASE_URI || 'mongodb://localhost/interview', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
 app.use(express.text())
 app.use(express.json())
