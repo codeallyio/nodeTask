@@ -1,8 +1,8 @@
 const { Router } = require('express')
-const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
-const { validateGender, validateAge, validateEmail } = require('./dataValidator')
+const { generateAge, generateGender, generateEmail } = require('./utils/dataGenerator')
+const { validateGender, validateAge, validateEmail } = require('./utils/dataValidator')
 
-const userModel = require('./user-model')
+const userModel = require('./model/user-model')
 
 
 const router = Router()
