@@ -2,25 +2,28 @@ const { Router } = require('express')
 const { generateAge, generateGender, generateEmail } = require('./dataGenerator')
 const { validateGender, validateAge, validateEmail } = require('./dataValidator')
 
+const userModel = require('./user-model')
+
 var db = require('./usersPseudoDB')
 
 
 const router = Router()
 
-router.get('/users', (req, res) => { // get all users
-    res.status(200).send(db.usersPseudoDB)
+router.get('/users', async (req, res) => { // get all users
+    const users = await userModel.find()
+
+    res.status(200).send({ users })
 })
 
 router.get('/user/:id', (req, res) => { // get single user
     const { id } = req.params
 
-    const user = db.usersPseudoDB.find(u => u.id == id)
-
-    if (!user) {
-        return res.status(404).send({ message: `User with id ${id} not found` })
-    }
-
-    res.status(200).send({ message: 'User found successfully', user })
+    userModel.findById(id, (err, user) => {
+        if (err) {
+            return res.status(404).send({ message: `User with id ${id} not found` })
+        }
+        res.status(200).send({ message: 'User found successfully', user })
+    })
 })
 
 router.post('/user', (req, res) => { // create user
@@ -30,23 +33,19 @@ router.post('/user', (req, res) => { // create user
     const gender = generateGender(urlParams.gender)
     const email = generateEmail(urlParams.email, gender)
 
-    id = db.serialID++
+    const newUser = new userModel({ age, gender, email });
 
-    const user = { id, age, gender, email }
+    newUser.save((err, user) => {
+        if (err) {
+            return res.status(500).send({ message: 'Error occurred' })
+        }
 
-    db.usersPseudoDB.push(user)
-
-    res.status(200).send({ message: 'User created successfully', user })
+        res.status(200).send({ message: 'User created successfully', user })
+    })
 })
 
-router.put('/user/:id', (req, res) => { // update user
+router.put('/user/:id', async (req, res) => { // update user
     const { id } = req.params
-
-    const user = db.usersPseudoDB.find(u => u.id == id)
-
-    if (!user) {
-        return res.status(404).send({ message: `User with id ${id} not found` })
-    }
 
     const updates = {}
 
@@ -62,23 +61,32 @@ router.put('/user/:id', (req, res) => { // update user
         }
     }
 
-    Object.assign(user, updates)
+    const updatedUser = await userModel.updateOne({
+        "_id": id
+    }, updates)
 
-    res.status(200).send({ message: 'User updated successfully', user })
-})
-
-router.delete('/user/:id', (req, res) => { // delete user
-    const { id } = req.params
-
-    const user = db.usersPseudoDB.find(u => u.id == id)
-
-    if (!user) {
+    if (!updatedUser.n) {
         return res.status(404).send({ message: `User with id ${id} not found` })
     }
 
-    db.usersPseudoDB.splice(db.usersPseudoDB.findIndex(u => u.id == id), 1)
+    userModel.findById(id, (err, user) => {
+        res.status(200).send({ message: 'User updated successfully', user })
+    })
+})
 
-    res.status(200).send({ message: 'User deleted successfully', user })
+router.delete('/user/:id', async (req, res) => { // delete user
+    const { id } = req.params
+
+
+    const deletedUser = await userModel.findOneAndDelete({
+        "_id": id,
+    })
+
+    if (deletedUser === null) {
+        return res.status(404).send({ message: `User with id ${id} not found` })
+    }
+
+    res.status(200).send({ message: 'User deleted successfully', user: deletedUser })
 })
 
 
