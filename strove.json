@@ -1,3 +1,3 @@
 {
-    "init": "sudo mongo-init.sh && cd nodeTask"
+    "init": "cd nodeTask && sudo sh mongo-init.sh && npm i"
 }

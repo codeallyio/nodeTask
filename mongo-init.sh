@@ -8,4 +8,4 @@ then
     sudo mkdir /data/db
 fi
 
-sudo mongod
+sudo mongod --fork --logpath /data/db/mongod.log
