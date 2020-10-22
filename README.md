@@ -8,6 +8,8 @@ You got the idea of creating fake Facebook accounts to sell likes and follows. Y
 
 #### CRUD API for accessing generated users:
 
+Use `userModel` to communicate with Mongo database.
+
 1. GET `/users` ➜ get all users <br />
 ￮ returns an array with all the users from the database
 
@@ -22,12 +24,12 @@ You got the idea of creating fake Facebook accounts to sell likes and follows. Y
 ￮ save user into Mongo database<br />
 ￮ return object with `message` 'User created successfully' and newly created `user`
 
-4. PUT `/user/:id` ➜ update the user by `ID`
+4. PUT `/user/:id` ➜ update the user by `ID`<br />
 ￮ 1st case: user found ➜ return object with `message` 'User updated successfully' and updated `user`<br />
 ￮ 2nd case: user not found ➜ return object with `message` 'User with id <id> not found'
   
-5. DELETE `/user/:id` ➜ delete the user by `ID`
-￮ 1st case: user found ➜ return object with `message` 'User deleted successfully' and deleted `user`
+5. DELETE `/user/:id` ➜ delete the user by `ID`<br />
+￮ 1st case: user found ➜ return object with `message` 'User deleted successfully' and deleted `user`<br />
 ￮ 2nd case: user not found ➜ return object with `message` 'User with id <id> not found'
 
 To simplify tests, make sure all successful requests will response with status 200.
