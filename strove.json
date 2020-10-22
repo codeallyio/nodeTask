@@ -1,0 +1,3 @@
+{
+    "init": "sudo db-init.sh && cd nodeTask"
+}
