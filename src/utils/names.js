@@ -2004,7 +2004,7 @@ Monserrat
 Zendaya
 Alora`
 
-module.exports = {
+export default {
     fNames,
     mNames
 }

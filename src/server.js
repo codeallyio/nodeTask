@@ -1,6 +1,6 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const users = require('./users')
+import express from 'express'
+import mongoose from 'mongoose'
+import users from './users'
 
 
 const app = express()
@@ -15,6 +15,7 @@ app.use(express.json())
 
 app.use(users)
 
+
 const PORT = 3000
 
 app.listen(PORT, () => {
@@ -22,4 +23,4 @@ app.listen(PORT, () => {
 })
 
 
-module.exports = app // for tests
+export default app // for tests

@@ -1,8 +1,8 @@
-const { Router } = require('express')
-const { generateAge, generateGender, generateEmail } = require('./utils/dataGenerator')
-const { validateGender, validateAge, validateEmail } = require('./utils/dataValidator')
+import { Router } from 'express'
+import { generateAge, generateGender, generateEmail } from './utils/dataGenerator'
+import { validateGender, validateAge, validateEmail } from './utils/dataValidator'
 
-const userModel = require('./model/user-model')
+import userModel from './model/user-model'
 
 
 const router = Router()
@@ -100,4 +100,4 @@ router.delete('/user/:id', async (req, res) => { // delete user
 })
 
 
-module.exports = router
+export default router
