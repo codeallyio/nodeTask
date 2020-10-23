@@ -49,13 +49,13 @@ There is no `/` endpoint, so don't worry after seeing not found page when gettin
 
 ### Run development mode
 
-`npm run dev`
+`yarn dev` / `npm run dev`
 
 This command runs the server with `nodemon`.
 
 ### Run tests
 
-`npm test`
+`yarn test` / `npm test`
 
 ---
 
