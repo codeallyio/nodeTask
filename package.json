@@ -6,7 +6,7 @@
   "scripts": {
     "start": "babel-node src/server.js",
     "dev": "nodemon --exec babel-node src/server.js",
-    "test": "mocha --timeout 10000"
+    "test": "npx babel-node ./node_modules/.bin/mocha --timeout 10000"
   },
   "author": "Strove",
   "license": "ISC",
