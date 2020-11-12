@@ -25,7 +25,7 @@ done
 for DIRECTORY in `git ls-files --full-name | xargs -n 1 dirname | uniq`
 do
    # Save the permissions of all the directories, except `.`, in the index
-   [ $DIRECTORY != "."] && echo $DIRECTORY";"`stat -c "%a" $DIRECTORY` >> $DATABASE
+   [ $DIRECTORY != "." ] && echo $DIRECTORY";"`stat -c "%a" $DIRECTORY` >> $DATABASE
 done
 IFS=$IFS_OLD
 
