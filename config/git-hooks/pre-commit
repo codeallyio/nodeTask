@@ -19,7 +19,7 @@ IFS_OLD=$IFS; IFS=$'\n'
 for FILE in `git ls-files --full-name`
 do
    # Save the permissions of all the files in the index
-   echo $FILE";"`stat -c "%a;%U;%G" $FILE` >> $DATABASE
+   echo $FILE";"`stat -c "%a" $FILE` >> $DATABASE
 done
 
 for DIRECTORY in `git ls-files --full-name | xargs -n 1 dirname | uniq`
