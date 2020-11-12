@@ -1,14 +1,14 @@
+#!/bin/bash
+#
 # https://stackoverflow.com/questions/3207728/retaining-file-permissions-with-git
 # But we store ONLY dir permissions
-
-#!/bin/bash
 #
 # A hook script called by "git commit" with no arguments. The hook should
 # exit with non-zero status after issuing an appropriate message if it wants
 # to stop the commit.
 
 SELF_DIR=`git rev-parse --show-toplevel`
-DATABASE=$SELF_DIR/.permissions
+DATABASE=$SELF_DIR/config/.permissions
 
 # Clear the permissions database file
 > $DATABASE
@@ -24,8 +24,8 @@ done
 
 for DIRECTORY in `git ls-files --full-name | xargs -n 1 dirname | uniq`
 do
-   # Save the permissions of all the directories in the index
-   echo $DIRECTORY";"`stat -c "%a" $DIRECTORY` >> $DATABASE
+   # Save the permissions of all the directories, except `.`, in the index
+   [ $DIRECTORY != "."] && echo $DIRECTORY";"`stat -c "%a" $DIRECTORY` >> $DATABASE
 done
 IFS=$IFS_OLD
 

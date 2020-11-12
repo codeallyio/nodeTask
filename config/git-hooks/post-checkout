@@ -1,10 +1,11 @@
+#!/bin/bash
+#
 # https://stackoverflow.com/questions/3207728/retaining-file-permissions-with-git
 # But we store ONLY dir permissions
 
-#!/bin/bash
 
 SELF_DIR=`git rev-parse --show-toplevel`
-DATABASE=$SELF_DIR/.permissions
+DATABASE=$SELF_DIR/config/.permissions
 
 echo -n "Restoring permissions..."
 
