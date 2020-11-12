@@ -16,3 +16,10 @@ src/utils/names.js;664
 strove.json;664
 test/users.js;664
 yarn.lock;664
+config;775
+config/git-hooks;775
+config;775
+src/model;775
+src;775
+src/utils;775
+test;775
